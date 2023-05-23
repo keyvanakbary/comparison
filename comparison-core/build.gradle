@@ -1,0 +1,28 @@
+plugins {
+    id 'org.flywaydb.flyway' version '9.8.1'
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    implementation 'org.springframework:spring-jdbc:6.0.9'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:3.1.0'
+
+    implementation 'org.flywaydb:flyway-core:9.16.3'
+    implementation 'org.flywaydb:flyway-mysql:9.16.3'
+
+    testImplementation "org.testcontainers:testcontainers:1.17.5"
+    testImplementation "org.testcontainers:junit-jupiter:1.17.5"
+    testImplementation "org.testcontainers:mysql:1.17.5"
+
+    runtimeOnly 'com.mysql:mysql-connector-j:8.0.33'
+}
+
+flyway {
+    url = System.getenv('DB_URL')
+    user = System.getenv('DB_USER')
+    password = System.getenv('DB_PASSWORD')
+}

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit product</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-body-tertiary">
+    <div class="container">
+        <main>
+            <div class="py-5 text-center">
+                <h2>Edit product</h2>
+            </div>
+            <div class="row g-5">
+                <div class="col-md-6 col-lg-5 order-md-last">
+                    <h4 class="mb-3">Flags</h4>
+                    <form class="mb-3" method="post" th:action="@{|/admin/${product.id}/flag/|}">
+                        <input type="hidden" name="productId" th:value="${product.id}"/>
+                        <label for="type" class="form-label">Add flag</label>
+                        <div class="input-group">
+                            <select class="form-select" id="type" name="type" required>
+                                <option value="positive">Positive</option>
+                                <option value="negative">Negative</option>
+                            </select>
+                            <input type="text" name="description" class="form-control" required>
+                            <button type="submit" class="btn btn-secondary">Add</button>
+                        </div>
+                    </form>
+
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item" th:each="flag,loop : ${product.flags}">
+                            <span th:class="${flag.type.toString.equals('POSITIVE') ? 'text-success' : 'text-warning'}">
+                                <i th:if="${flag.type.toString.equals('POSITIVE')}" class="bi bi-check-circle"></i>
+                                <i th:if="${flag.type.toString.equals('NEGATIVE')}" class="bi bi-exclamation-circle"></i>
+                                <span th:text="${flag.description}"></span>
+                            </span>
+
+                            <form class="float-end" method="post" th:action="@{|/admin/${product.id}/flag/${loop.index}/|}">
+                                <input type="hidden" name="productId" th:value="${product.id}"/>
+                                <input type="hidden" name="index" th:value="${loop.index}"/>
+                                <button class="btn btn-light btn-sm" type="submit">Remove</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-6 col-lg-7">
+                    <h4 class="mb-3">Information</h4>
+                    <form method="post" th:action="@{|/admin/${product.id}/|}">
+                        <input type="hidden" name="id" th:value="${product.id}"/>
+
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label for="productName" class="form-label">Product name</label>
+                                <input type="text" class="form-control" id="productName" name="productTitle" th:placeholder="${product.info.productTitle}" th:value="${product.infoEdit?.productTitle}"/>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="bankName" class="form-label">Bank name</label>
+                                <input type="text" class="form-control" id="bankName" name="bankName" th:placeholder="${product.info.bankName}" th:value="${product.infoEdit?.bankName}"/>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="link" class="form-label">Link</label>
+                                <input type="text" class="form-control" id="link" name="link" th:placeholder="${product.info.link}" th:value="${product.infoEdit?.link}">
+                            </div>
+
+                            <div class="col-12">
+                                <label for="logo" class="form-label">Logo</label>
+                                <input type="text" class="form-control" id="logo" name="logo" th:placeholder="${product.info.logo}" th:value="${product.infoEdit?.logo}">
+                            </div>
+
+                            <div class="col-12">
+                                <label for="applicationRequirements" class="form-label">Application requirements</label>
+                                <input type="text" class="form-control" id="applicationRequirements" name="applicationRequirements" th:placeholder="${product.info.applicationRequirements}" th:value="${product.infoEdit?.applicationRequirements}">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="participationFee" class="form-label">Participation fee</label>
+                                <input type="text" class="form-control" id="participationFee" name="participationFee" th:placeholder="${product.info.participationFee}" th:value="${product.infoEdit?.participationFee}"/>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="participationCost" class="form-label">Participation cost</label>
+                                <input type="text" class="form-control" id="participationCost" name="participationCost" th:placeholder="${product.info.participationCost}" th:value="${product.infoEdit?.participationCost}"/>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="extraInfo" class="form-label">Extra information</label>
+                                <textarea class="form-control" id="extraInfo" name="extraInfo" th:placeholder="${product.info.extraInfo}" th:text="${product.infoEdit?.extraInfo}"></textarea>
+                            </div>
+
+                            <div class="col-12 text-end">
+                                <button class="btn btn-primary btn-lg" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+
+        <footer class="my-5 pt-5 text-body-secondary text-center text-small">
+            <p class="mb-1">&copy; 2023 Keyvan Akbary</p>
+        </footer>
+    </div>
+</body>
+</html>

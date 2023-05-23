@@ -1,0 +1,5 @@
+rootProject.name = 'comparison'
+
+include 'comparison-core'
+include 'comparison-importer'
+include 'comparison-web'

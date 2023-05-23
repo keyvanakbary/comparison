@@ -1,0 +1,47 @@
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: comparison
+  datasource:
+    url: jdbc:mysql://localhost/comparison
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: comparison
+    password: comparison
+  flyway:
+    enabled: false
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+
+logging:
+  file: logs/oneweek.log
+  level:
+    web: DEBUG
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: docker
+  datasource:
+    url: jdbc:mysql://mysqldb/comparison
+    username: comparison
+    password: comparison
+
+---
+
+server:
+  port: ${PORT}
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: jdbc:${DATABASE_URL}
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASS}

@@ -1,0 +1,28 @@
+version: '3.1'
+services:
+
+  comparison:
+    build: .
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysqldb
+    restart: always
+
+  mysqldb:
+    image: mysql/mysql-server:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=comparison
+      - MYSQL_PASSWORD=comparison
+      - MYSQL_DATABASE=comparison
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+    ports:
+      - 3306:3306
+
+volumes:
+  mysql-data:
